@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmos.tpshe.wh.task.dao.WhTaskTelDao" >
+    <resultMap id="BaseResultMap" type="com.cmos.tpshe.wh.task.entity.WhTaskTel" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="telnum" property="telnum" jdbcType="VARCHAR" />
+        <result column="task_id" property="taskId" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="level" property="level" jdbcType="VARCHAR" />
+        <result column="card_num" property="cardNum" jdbcType="VARCHAR" />
+        <result column="wh_id" property="whId" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, telnum, task_id, sex,update_time,state,create_time,level,card_num,wh_id
+    </sql>
+
+    <insert id="save" parameterType="com.cmos.tpshe.wh.task.entity.WhTask" useGeneratedKeys="true" keyProperty="id" >
+        insert into he_wh_tel (id, telnum, task_id,sex,update_time,state,create_time,level,card_num,wh_id)
+        values (#{id,jdbcType=INTEGER}, #{telnum,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR},
+        #{sex,jdbcType=VARCHAR},#{updateTime,jdbcType=TIMESTAMP},#{state,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{level,jdbcType=VARCHAR},#{cardNum,jdbcType=VARCHAR},#{whId,jdbcType=INTEGER})
+    </insert>
+
+    <select id="queryByTaskId" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from he_wh_tel WHERE wh_id = #{taskId}
+    </select>
+
+    <select id="queryAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from he_wh_tel
+    </select>
+
+
+    <update id="updateStateById">
+        UPDATE he_wh_tel SET state = #{state} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM he_wh_tel where id = #{id}
+    </delete>
+    <select id="queryByTelAndTask" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from he_wh_tel WHERE task_id = #{taskId} AND telnum = #{telnum} AND state != "3"
+    </select>
+
+
+</mapper>

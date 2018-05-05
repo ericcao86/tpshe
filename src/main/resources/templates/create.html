@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{~/css/bootstrap-datetimepicker.min.css}" />
+
+</head>
+<body>
+<div style="padding-top: 40px"></div>
+<form role="form"   id="taskform" enctype="multipart/form-data">
+    <div class="form-group col-sm-8">
+        <label for="name" class="col-sm-4 control-label">任务名称</label>
+        <div class="col-sm-6">
+        <input type="text" class="form-control" id="name" name="taskName" placeholder="请输入名称"/>
+        </div>
+    </div>
+    <div class="form-group col-sm-8">
+        <label for="inputfile" class="col-sm-4 control-label">外呼名单</label>
+        <div class="col-sm-6">
+        <input type="file" id="inputfile" name="file"/>
+        </div>
+    </div>
+    <div class="form-group col-sm-8">
+        <label for="name" class="col-sm-4 control-label">流程ID</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="taskId" name="taskId" placeholder="请输入流程Id"/>
+        </div>
+    </div>
+
+    <div class="form-group col-sm-8">
+        <label for="name" class="col-sm-4 control-label">并发量</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="concurrency" name="concurrency" placeholder="请输入并发量"/>
+        </div>
+    </div>
+
+    <div class="form-group col-sm-8">
+        <label for="name" class="col-sm-4 control-label">任务时间</label>
+        <div class="col-sm-6" data-date-format="yyyy-mm-dd hh:mm">
+            <input type="text" class="form-control" id="taskTime" name="taskTime" placeholder=""/>
+        </div>
+    </div>
+    <div class="form-group col-sm-8">
+        <button type="button" class="btn btn-default" onclick="save()">提交</button>
+    </div>
+
+</form>
+
+</body>
+<script th:src="@{~/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{~/js/bootstrap.min.js}"></script>
+<script th:src="@{~/js/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{~/js/bootstrap-datetimepicker.zh-CN.js}"></script>
+<script type="application/javascript">
+    $('#taskTime').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        autoclose: true,
+        minView: 0,
+        minuteStep:1
+    });
+</script>
+<script type="application/javascript">
+function save() {
+    var formData = new FormData($("#taskform")[0]);
+    $.ajax({
+        url : "save",
+        type : "POST",
+        data : formData,
+        async : false,
+        cache : false,
+        contentType : false,// 告诉jQuery不要去设置Content-Type请求头
+        processData : false,// 告诉jQuery不要去处理发送的数据
+        success : function(data) {
+            alert("保存成功！");
+            window.location.href="/wh/task/index";
+        },
+        error : function() {
+        }
+    })	;
+}
+
+</script>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmos.tpshe.wh.task.dao.WhTaskDao" >
+    <resultMap id="BaseResultMap" type="com.cmos.tpshe.wh.task.entity.WhTask" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+        <result column="task_id" property="taskId" jdbcType="VARCHAR" />
+        <result column="task_time" property="taskTime" jdbcType="TIMESTAMP" />
+        <result column="concurrency" property="concurrency" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, task_name, task_id, task_time ,concurrency,state,create_time
+    </sql>
+
+    <insert id="save" parameterType="com.cmos.tpshe.wh.task.entity.WhTask" useGeneratedKeys="true" keyProperty="id" >
+        insert into he_wh_task (id, task_name, task_id,task_time,concurrency,state,create_time)
+        values (#{id,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR},
+        #{taskTime,jdbcType=TIMESTAMP},#{concurrency,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <select id="queryAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from he_wh_task
+     </select>
+
+    <select id="queryByTaskTime" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from he_wh_task WHERE task_time = #{taskTime}
+    </select>
+
+    <select id="queryById" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from he_wh_task WHERE id = #{id}
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+   <delete id="deleteById" parameterType="java.lang.Integer">
+     DELETE FROM he_wh_task WHERE id = #{id}
+   </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM he_wh_task
+    </delete>
+
+    <update id="updateStateById">
+        UPDATE he_wh_task SET state = #{state} WHERE id = #{id}
+    </update>
+
+
+</mapper>
